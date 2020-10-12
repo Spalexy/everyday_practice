@@ -1,11 +1,14 @@
-import datetime
+from requests import get as r_get
 
-from config import USER_NAME
+from config import USER_NAME, TIME_API_LINK
 
 
-def time_of_day_greeting():
-    now_hour = datetime.datetime.now().hour
+def get_current_hour_from_worldtimeapi():
+    date_time = r_get(TIME_API_LINK).json().get('datetime')
+    return int(date_time[11:13])
 
+
+def get_greeting_line_by_current_hour(now_hour):
     if 0 <= now_hour < 5:
         greeting = 'Доброй ночи, {}!'.format(USER_NAME)
     elif 5 <= now_hour < 10:
@@ -17,4 +20,4 @@ def time_of_day_greeting():
     return greeting
 
 
-print(time_of_day_greeting())
+print(get_greeting_line_by_current_hour(get_current_hour_from_worldtimeapi()))
