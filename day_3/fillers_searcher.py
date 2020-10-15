@@ -4,9 +4,9 @@ from json import dumps
 from collections import Counter
 
 
-def get_string_exclude_punctuation(string_to_exclude_puntuation) -> str:
+def get_string_exclude_punctuation(string_to_exclude_punctuation) -> str:
     exclude = set(string.punctuation)
-    return ''.join(char for char in string_to_exclude_puntuation if char not in exclude).lower()
+    return ''.join(char for char in string_to_exclude_punctuation if char not in exclude).lower()
 
 
 def get_words_counter(string_to_count_words) -> Counter:
@@ -23,8 +23,11 @@ def to_json(func):
 
 @to_json
 def fillers_searcher(test_to_search_fillers, max_amount) -> dict:
-    word_count_dictionary = dict(get_words_counter(get_string_exclude_punctuation(test_to_search_fillers)))
+    word_count_dictionary = dict(
+        get_words_counter(
+            get_string_exclude_punctuation(test_to_search_fillers)))
     keys_to_remove = [key for key, value in word_count_dictionary.items() if int(value) < max_amount]
+
     for key in keys_to_remove:
         del word_count_dictionary[key]
     return word_count_dictionary
