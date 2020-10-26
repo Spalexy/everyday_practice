@@ -1,36 +1,38 @@
 import string
 
 
-def get_encoded_text(some_str):
-    coded_str = []
-    letters = '{}a'.format(string.ascii_lowercase)
-    for char in some_str:
+def get_shift(char_index, operation_type):
+    if operation_type == 'encoding':
+        shift = char_index + 1
+    elif operation_type == 'decoding':
+        shift = char_index - 1
+    else:
+        raise ValueError
+    return shift
+
+
+def get_modified_string(str_to_operation, string_template, operation_type):
+    new_str = []
+    letters = string_template.format(string.ascii_lowercase)
+    for char in str_to_operation:
         is_upper = char.isupper()
         if char.isalpha() and not is_upper:
             char_index = letters.index(char)
-            coded_str.append((letters[char_index + 1]).capitalize())
+            new_str.append((letters[get_shift(char_index, operation_type)]).capitalize())
         elif char.isalpha():
             char_index = letters.index(char.lower())
-            coded_str.append((letters[char_index + 1]))
+            new_str.append((letters[get_shift(char_index, operation_type)]))
         else:
-            coded_str.append(char)
-    return ''.join(coded_str)
+            new_str.append(char)
+    return ''.join(new_str)
 
 
-def get_decoded_text(some_str):
-    coded_str = []
-    letters = 'a{}'.format(string.ascii_lowercase)
-    for char in some_str:
-        is_upper = char.isupper()
-        if char.isalpha() and not is_upper:
-            char_index = letters.index(char)
-            coded_str.append((letters[char_index - 1]).capitalize())
-        elif char.isalpha():
-            char_index = letters.index(char.lower())
-            coded_str.append((letters[char_index - 1]))
-        else:
-            coded_str.append(char)
-    return ''.join(coded_str)
+def get_encoded_text(str_to_encode):
+    return get_modified_string(str_to_encode, '{}a', 'encoding')
+
+
+def get_decoded_text(str_to_decode):
+    return get_modified_string(str_to_decode, 'a{}', 'decoding')
 
 
 coded_text = get_encoded_text('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
