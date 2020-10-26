@@ -11,9 +11,9 @@ def get_shift(char_index, operation_type):
     return shift
 
 
-def get_modified_string(str_to_operation, string_template, operation_type):
+def get_modified_string(str_to_operation, letters_template, operation_type):
     new_str = []
-    letters = string_template.format(string.ascii_lowercase)
+    letters = letters_template.format(string.ascii_lowercase)
     for char in str_to_operation:
         is_upper = char.isupper()
         if char.isalpha() and not is_upper:
