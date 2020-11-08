@@ -15,6 +15,7 @@ def verify_list_of_lists(verification_mask: int, list_to_verifying) -> bool:
         for i in range(len(list_to_verifying)):
             if len(list_to_verifying[i]) != verification_mask[i]:
                 result = False
+                break
     else:
         result = False
     return result
